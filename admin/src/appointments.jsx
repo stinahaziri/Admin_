@@ -24,7 +24,7 @@ const togglePaymentStatus = (appointmentId) => {
 
     useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Appointment")
+    .get("https://localhost:7211/api/appointments")
     .then((res) => {
       console.log("API response:", res.data);
       setAppointments(res.data);
@@ -48,7 +48,7 @@ useEffect(() => {
 
 useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Departament")
+    .get("https://localhost:7211/api/departaments")
     .then((res) => {
       console.log("Shembull i nje departamenti:", res.data[0]);
       setDepartaments(res.data);
@@ -74,7 +74,7 @@ const handleDelete = async () => {
   if (!deleteId) return;
 
   try {
-    await axios.delete(`http://localhost:5081/api/Appointment/${deleteId}`);
+    await axios.delete(`http://localhost:5081/api/appointments/${deleteId}`);
     setAppointments(appointments.filter(a => a.appointmentId !== deleteId));
     setDeleteId(null); // pastrimi
    
@@ -133,7 +133,7 @@ const handleDelete = async () => {
                             <td>{getDoctorName(item.doctorId)}</td>
                             <td>{getDepartamentName(item.departamentId)}</td>
                        
-                        <td>{item.appointmentDate.split('T')[0]}</td>
+                        <td>{item.appointmentDate?.split('T')[0]}</td>
                         
                         <td>{item.appointmentTime}</td>
                         <td>

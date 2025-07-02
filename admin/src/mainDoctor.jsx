@@ -10,7 +10,7 @@ function MainDoctor() {
 
   useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Doctors")
+    .get("https://localhost:7211/api/Doctor")
     .then((response) => {
       console.log("Doktorët:", response.data);
       setDoctors(response.data);
@@ -57,7 +57,7 @@ function MainDoctor() {
                     <div className="doctor-img">
                       <a className="avatar">
                         <img
-                          src={`http://localhost:5081/Images/${item.avatar}`}
+                          src={`https://localhost:5081/Images/${item.avatar}`}
                           alt="Doctor Avatar"
                         />
                       </a>
@@ -74,12 +74,12 @@ function MainDoctor() {
                       <div className="dropdown-menu dropdown-menu-end">
                       
 
-                      {/* <Link
+                      <Link
   to={`/edit-doctor/${item.doctorId}`} 
   className="btn btn-sm btn-info"
 >
   <i className="fa fa-pencil m-r-5"></i>Edit
-</Link> */}
+</Link>
 
 
                         <button

@@ -17,7 +17,7 @@ function MainAddDoctor() {
 
 useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Departament")
+    .get("https://localhost:7211/api/departments")
 
     .then((res) => {
        console.log("Doktorët e marrë:", res.data);
@@ -51,20 +51,16 @@ useEffect(() => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("FirstName", firstName);
-    formData.append("LastName", lastName);
-    formData.append("DepartmentId", selectedDepartmentId);
-    formData.append("WorkingHoursStart", workingHoursStart);
-    formData.append("WorkingHoursEnd", workingHoursEnd);
-    formData.append("AvatarFile", avatarFile);
+    const formData = {
+      FirstName: firstName,
+      LastName: lastName,
+      DepartmentId: selectedDepartmentId,
+      WorkingHoursStart: workingHoursStart,
+      WorkingHoursEnd: workingHoursEnd,
+    }
 
     try {
-      await axios.post("http://localhost:5081/api/Doctors/upload-avatars", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post("https://localhost:7211/api/doctor", formData);
       alert("Doktori u shtua me sukses!");
       navigate("/doctors");
     } catch (error) {
@@ -112,7 +108,7 @@ useEffect(() => {
   <option value="">-- Zgjedh një departament --</option>
   {departments.map((d) => (
     <option key={d.id} value={d.id}>
-      {d.departamentName}
+      {d.title}
     </option>
   ))}
 </select>

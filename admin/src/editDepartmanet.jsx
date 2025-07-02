@@ -7,29 +7,36 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function EditDepartament() {
   const { id } = useParams();
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [active, setActive] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5081/api/Departament/${id}`).then((res) => {
+    axios.get(`https://localhost:7211/api/departments/${id}`).then((res) => {
       const data = res.data;
     
-      setName(data.departamentName);
+      setDescription(data.description);
+      setTitle(data.title);
       setActive(data.isActive);
     });
   }, [id]);
+
+  console.log(active);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const payload = {
-      departamentName: name,
-      isActive: active,
+      title,
+      description,
+      IsActive: active,
     };
 
+    console.log("Payload:", payload);
+
     try {
-      await axios.put(`http://localhost:5081/api/Departament/${id}`, payload);
+      await axios.put(`https://localhost:7211/api/departments/${id}`, payload);
       navigate("/department");
     } catch (err) {
       console.error("Error updating department", err);
@@ -45,7 +52,7 @@ function EditDepartament() {
         <div className="content">
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
-              <h4 className="page-title">Add Department</h4>
+              <h4 className="page-title">Edit Department</h4>
             </div>
           </div>
           <div className="row">
@@ -56,11 +63,23 @@ function EditDepartament() {
                   <input
                     className="form-control"
                     type="text"
-                    value={name || ""}
-                    placeholder={name}
+                    value={title || ""}
+                    placeholder="Title"
     
                     
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Department Name</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={description || ""}
+                    placeholder="Description"
+    
+                    
+                    onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
 
@@ -101,7 +120,7 @@ function EditDepartament() {
                 </div>
                 <div className="m-t-20 text-center">
                   <button className="btn btn-primary submit-btn">
-                    Create Department
+                    Update Department
                   </button>
                 </div>
               </form>

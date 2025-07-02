@@ -7,14 +7,16 @@ import { useNavigate } from "react-router-dom";
 
 function AddDepartament() {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [active, setActive] = useState(true);
   const navigate = useNavigate();
 
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    await axios.post("http://localhost:5081/api/Departament", {
-      departamentName: name,
+    await axios.post("https://localhost:7211/api/departments", {
+      title: name,
+      description: description,
       isActive: active,
     });
     alert("Departamenti u shtua me sukses!");
@@ -56,12 +58,22 @@ function AddDepartament() {
             <div className="col-lg-8 offset-lg-2">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label>Department Name</label>
+                  <label>Title</label>
                   <input
                     className="form-control"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Description</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     required
                   />
                 </div>

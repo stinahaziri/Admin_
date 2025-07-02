@@ -20,7 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
    const navigate = useNavigate();
 
      useEffect(() => {
-    axios.get(`http://localhost:5081/api/Appointment/${id}`).then((res) => {
+    axios.get(`http://localhost:5081/api/appointment/${id}`).then((res) => {
       const data = res.data;
     
       setName(data.name);
@@ -35,7 +35,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
     useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Departament")
+    .get("https://localhost:7211/api/departaments")
 
     .then((res) => {
        console.log("departamenti e marrë:", res.data);
@@ -66,7 +66,7 @@ import { useNavigate, useParams } from "react-router-dom";
     };
 
     try {
-      await axios.put(`http://localhost:5081/api/Appointment/${id}`, payload);
+      await axios.put(`http://localhost:5081/api/appointment/${id}`, payload);
       navigate("/appointments");
     } catch (err) {
       console.error("Error updating department", err);

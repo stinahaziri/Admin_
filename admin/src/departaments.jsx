@@ -12,7 +12,7 @@ function Department() {
 
 useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Departament")
+    .get("https://localhost:7211/api/departments")
     .then((res) => {
       console.log("API response:", res.data);
       setDepartament(res.data);
@@ -28,7 +28,7 @@ const handleDelete = async () => {
   if (!deleteId) return;
 
   try {
-    await axios.delete(`http://localhost:5081/api/Departament/${deleteId}`);
+    await axios.delete(`https://localhost:7211/api/departments/deleteDepartment/${deleteId}`);
     setDepartament(departament.filter(d => d.id !== deleteId));
     setDeleteId(null); // pastrimi
   } catch (error) {
@@ -60,7 +60,8 @@ const handleDelete = async () => {
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Department Name</th>
+                      <th>Title</th>
+                      <th>Description</th>
                       <th>Status</th>
                       <th className="text-end">Action</th>
                     </tr>
@@ -70,8 +71,8 @@ const handleDelete = async () => {
                     {departament.map((item, index) => (
                       <tr key={index}>
                         <td>{item.id}</td>
-                        <td>{item.departamentName}</td>
-                        
+                        <td>{item.title}</td>
+                        <td>{item.description}</td>                        
                         <td>
                           <span
                             className={

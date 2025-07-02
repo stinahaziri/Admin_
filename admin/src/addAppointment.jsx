@@ -22,14 +22,14 @@
 
   useEffect(() => {
   axios
-    .get("http://localhost:5081/api/Departament")
+    .get("https://localhost:7211/api/departaments")
 
     .then((res) => {
        console.log("departamenti e marrë:", res.data);
       setDepartments(res.data.$values || res.data); // në varësi të formatit që kthen backend-i
     })
      axios
-    .get("http://localhost:5081/api/Doctors")
+    .get("https://localhost:7211/api/doctors")
 
     .then((res) => {
        console.log("doktorri e marrë:", res.data);
@@ -68,7 +68,7 @@
   console.log("Të dhënat që po dërgohen:", dataToSend);
 
   try {
-    const response = await axios.post("http://localhost:5081/api/Appointment", dataToSend);
+    const response = await axios.post("https://localhost:7211/api/appointment", dataToSend);
     console.log("Përgjigja nga serveri:", response.data);
     alert("Takimi u shtua me sukses!");
     navigate("/appointments");

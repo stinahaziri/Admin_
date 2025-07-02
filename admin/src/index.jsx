@@ -17,7 +17,7 @@ const[doctorCount,setDoctorCount]=useState(0);
 
 //countat
 useEffect(()=>{
-    axios.get("http://localhost:5081/api/Departament/count")
+    axios.get("https://localhost:7211/api/departament/count")
     .then(res=>{
         setDepartamentCount(res.data)
     })
@@ -27,7 +27,7 @@ useEffect(()=>{
     })
 })
 useEffect(()=>{
-    axios.get("http://localhost:5081/api/Appointment/count")
+    axios.get("http://localhost:5081/api/appointments/count")
     .then(res=>{
         setAppointmentsCount(res.data)
     })

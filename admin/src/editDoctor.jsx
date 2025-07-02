@@ -43,7 +43,7 @@ function EditDoctor() {
 
     // Merr departamentet
     axios
-      .get("http://localhost:5081/api/Departament")
+      .get("https://localhost:7211/api/departaments")
       .then((res) => {
         setDepartments(res.data.$values || res.data);
       })
