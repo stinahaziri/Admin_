@@ -8,9 +8,9 @@ import EditDoctor from "./editDoctor.jsx";
 
 import Appointment from "./appointments.jsx";
 import AddAppointment from "./addAppointment.jsx";
+import EditAppointment from "./editAppointment.jsx"
 
-import Schedule from "./schedule.jsx";
-import AddSchedule from "./addSchedule.jsx";
+
 
 import Department from "./departaments.jsx";
 import AddDepartament from "./addDepartament.jsx";
@@ -30,15 +30,14 @@ export default function App() {
         {/* Doctors */}
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/add-doctor" element={<AddDoctors />} />
-        <Route path="/edit-doctor" element={<EditDoctor />} />
+        <Route path="/edit-doctor/:id" element={<EditDoctor/>} />
 
         {/* Appointments */}
         <Route path="/appointments" element={<Appointment />} />
         <Route path="/add-appointment" element={<AddAppointment />} />
+        <Route path="/editAppointment/:id" element={<EditAppointment />}/>
 
-        {/* Schedule */}
-        <Route path="/schedule" element={<Schedule />} />
-        <Route path="/add-schedule" element={<AddSchedule />} />
+      
 
         {/* Departments */}
         <Route path="/department" element={<Department />} />

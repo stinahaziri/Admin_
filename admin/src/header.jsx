@@ -147,7 +147,7 @@ function Header() {
           <a
             href="#"
             className="dropdown-toggle nav-link user-link"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
           >
             <span className="user-img">
               <img
@@ -161,7 +161,7 @@ function Header() {
             <span> Admin</span>
           </a>
           <div className="dropdown-menu">
-            <a className="dropdown-item" href="profile.html">
+            {/* <a className="dropdown-item" href="profile.html">
               My Profile
             </a>
             <a className="dropdown-item" href="edit-profile.html">
@@ -169,7 +169,7 @@ function Header() {
             </a>
             <a className="dropdown-item" href="settings.html">
               Settings
-            </a>
+            </a> */}
             <a className="dropdown-item" href="login.html">
               Logout
             </a>
@@ -180,13 +180,13 @@ function Header() {
         <a
           href="#"
           className="nav-link dropdown-toggle"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           <i className="fa fa-ellipsis-v"></i>
         </a>
         <div className="dropdown-menu dropdown-menu-right">
-          <a className="dropdown-item" href="profile.html">
+          {/* <a className="dropdown-item" href="profile.html">
             My Profile
           </a>
           <a className="dropdown-item" href="edit-profile.html">
@@ -194,7 +194,7 @@ function Header() {
           </a>
           <a className="dropdown-item" href="settings.html">
             Settings
-          </a>
+          </a> */}
           <a className="dropdown-item" href="login.html">
             Logout
           </a>

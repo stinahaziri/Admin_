@@ -9,22 +9,32 @@ function Department() {
   const [departament, setDepartament] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5081/api/Departament")
-      .then((response) => setDepartament(response.data))
-      .catch((error) => console.error("Error fetching departments:", error));
-  }, []);
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5081/api/Departament/${deleteId}`);
-      setDepartament(departament.filter(d => d.id !== deleteId));
-    } catch (error) {
-      console.error("Error deleting department:", error);
-    }
-  };
+useEffect(() => {
+  axios
+    .get("http://localhost:5081/api/Departament")
+    .then((res) => {
+      console.log("API response:", res.data);
+      setDepartament(res.data);
+    })
+    .catch((err) => {
+      console.error("Failed to fetch departament:", err);
+    });
+}, []);
 
+
+//delete
+const handleDelete = async () => {
+  if (!deleteId) return;
+
+  try {
+    await axios.delete(`http://localhost:5081/api/Departament/${deleteId}`);
+    setDepartament(departament.filter(d => d.id !== deleteId));
+    setDeleteId(null); // pastrimi
+  } catch (error) {
+    console.error("Error deleting department:", error);
+  }
+};
   return (
     <>
       <SideBar />
@@ -56,6 +66,7 @@ function Department() {
                     </tr>
                   </thead>
                   <tbody>
+                    
                     {departament.map((item, index) => (
                       <tr key={index}>
                         <td>{item.id}</td>
@@ -102,11 +113,11 @@ function Department() {
                         </td>
                       </tr>
                     ))}
-                    {departament.length === 0 && (
+                    {/* {departament.length === 0 && (
                       <tr>
                         <td colSpan="4" className="text-center text-muted">No departments found.</td>
                       </tr>
-                    )}
+                    )} */}
                   </tbody>
                 </table>
               </div>

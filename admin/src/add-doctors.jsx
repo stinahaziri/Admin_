@@ -5,12 +5,10 @@ import MainAddDoctor from "./mainAddDoctor.jsx"
 import React from "react";
 //script
 import "./js/jquery-3.2.1.min.js"
-// import "./js/"
-// import "./js/bootstrap.min.js"
+
 import "./js/jquery.slimscroll.js"
 import "./js/select2.min.js"
-// import "./js/moment.min.js"
-// import "./js/bootstrap-datetimepicker.min.js"
+
  import "./js/app.js"
   
  

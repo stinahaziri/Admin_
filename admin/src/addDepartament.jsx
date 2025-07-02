@@ -13,21 +13,32 @@ function AddDepartament() {
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    console.log("Po dergohet:", {
-  DepartamentName :name,
-  IsActive: active
-});
     await axios.post("http://localhost:5081/api/Departament", {
-      DepartamentName : name,
-      IsActive: active
+      departamentName: name,
+      isActive: active,
     });
-       navigate("/department");
+    alert("Departamenti u shtua me sukses!");
+    navigate("/department");
   } catch (error) {
     if (error.response) {
-      console.error("Response data:", error.response.data); // qfar errori o
+      const { data } = error.response;
+
+      // Nese vjen error specifik qe tregon se emri ekziston
+      if (
+        data?.errors?.addDepartmentDto?.some(err =>
+          err.toLowerCase().includes("already exists") ||
+          err.toLowerCase().includes("ekziston")
+        )
+      ) {
+       
+      } else {
+        alert("Egziston ky depaetament");
+        console.error("Gabim i përgjithshëm:", data);
+      }
     }
   }
 };
+
 
 
   return (
@@ -64,7 +75,7 @@ function AddDepartament() {
                       id="product_active"
                       value="Active"
                       checked={active === true}
-                      onChange={(e) => setActive(ture)}
+                      onChange={(e) => setActive(true)}
                     />
                     <label className="form-check-label" htmlFor="product_active">
                       Active

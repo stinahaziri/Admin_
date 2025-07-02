@@ -37,11 +37,7 @@ function SideBar() {
                 </Link>
               </li>
 
-              <li className={isActive('/schedule') ? 'active' : ''}>
-                <Link to="/schedule">
-                  <i className="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span>
-                </Link>
-              </li>
+          
 
               <li className={isActive('/departments') ? 'active' : ''}>
                 <Link to="/department">

@@ -3,6 +3,10 @@
  * 
  */
 
+.met-3{
+	display: flex;
+	justify-content: center;
+}
 .bootstrap-tagsinput {
   
   background-color: #fff;

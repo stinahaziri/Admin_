@@ -1,10 +1,12 @@
-  import Header from "./header.jsx";
-  import React, { useState, useEffect } from "react";
-  import SideBar from "./sideBar.jsx";
-  import axios from "axios";
-  import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Header from "./header.jsx";
+import SideBar from "./sideBar.jsx";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-  function AddAppointment() {
+  function EditAppointment() {
+    const { id } = useParams();
     const [name, setName] = useState("");
 
     const [departments, setDepartments] = useState([]);
@@ -15,12 +17,23 @@
 
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
+   const navigate = useNavigate();
+
+     useEffect(() => {
+    axios.get(`http://localhost:5081/api/Appointment/${id}`).then((res) => {
+      const data = res.data;
+    
+      setName(data.name);
+      setAppointmentDate(data.appointmentDate.split("T")[0]);
+      setAppointmentTime(data.appointmentTime);
+
+      setSelectedDoctorId(data.selectedDoctorId)
+      setSelectedDepartmentId(data.selectedDepartmentId);
+    });
+  }, [id]);
 
 
-    const navigate = useNavigate();
-
-
-  useEffect(() => {
+    useEffect(() => {
   axios
     .get("http://localhost:5081/api/Departament")
 
@@ -40,53 +53,26 @@
     });
 }, [])
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+    const payload = {
+      name: name,
+      AppointmentDate: appointmentDate,      
+      AppointmentTime: appointmentTime,
 
-  if (!name || !appointmentDate || !appointmentTime || !selectedDoctorId || !selectedDepartmentId) {
-    alert("Ju lutem plotësoni të gjitha fushat.");
-    return;
-  }
+      DoctorId: selectedDoctorId,
+      DepartamentId: selectedDepartmentId,
+    };
 
-  const selectedDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
-  const now = new Date();
-
-  if (selectedDateTime < now) {
-    alert("Nuk mund të caktoni takim në të kaluarën.");
-    return;
-  }
-
-  const dataToSend = {
-    name: name,
-    appointmentDate: appointmentDate,
-    appointmentTime: appointmentTime + ":00",
-    doctorId: selectedDoctorId,
-    departamentId: selectedDepartmentId,
-  };
-
-  console.log("Të dhënat që po dërgohen:", dataToSend);
-
-  try {
-    const response = await axios.post("http://localhost:5081/api/Appointment", dataToSend);
-    console.log("Përgjigja nga serveri:", response.data);
-    alert("Takimi u shtua me sukses!");
-    navigate("/appointments");
-  } catch (error) {
-    if (error.response) {
-      const { data } = error.response;
-      console.log("Gabim nga serveri:", data);
-      if (data.errors) {
-        for (const field in data.errors) {
-          console.error(`${field}: ${data.errors[field].join(", ")}`);
-        }
-      }
-      alert("Gabim gjatë shtimit të takimit.");
+    try {
+      await axios.put(`http://localhost:5081/api/Appointment/${id}`, payload);
+      navigate("/appointments");
+    } catch (err) {
+      console.error("Error updating department", err);
     }
-  }
-};
 
-
+  };
     return (
       <>
         <SideBar />
@@ -95,12 +81,12 @@
           <div className="content">
             <div className="row">
               <div className="col-lg-8 offset-lg-2">
-                <h4 className="page-title">Add Appointment</h4>
+                <h4 className="page-title">Edit Appointment</h4>
               </div>
             </div>
             <div className="row">
               <div className="col-lg-8 offset-lg-2">
-                <form  onSubmit={handleSubmit} >
+                <form onSubmit={handleSubmit}>
                   
                   <div className="row">
                     <div className="col-md-6">
@@ -108,16 +94,11 @@
                         <label>Patient Name</label>
                         <input
                           type="text"
-                          placeholder="Name"
                           className="form-control"
-                          value={name}
+                          value={name || ""} placeholder={name}
                           onChange={(e) => setName(e.target.value)}
-                          required
                         />
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                    
                     </div>
                   </div>
 
@@ -133,28 +114,28 @@
                           required
                         >
                           <option value="">-- Zgjedh një departament --</option>
-                          {departments.map((d) => (
+                          {Array.isArray(departments) && departments.map((d)  => (
                             <option key={d.id} value={d.id}>
                               
                               {d.departamentName}
                             </option>
                           ))}
                         </select>
-                        
+
                       </div>
                     </div>
 
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Doctor</label>
-                        <select
+                         <select
                           className="form-control"
                           value={selectedDoctorId}
                           onChange={(e) => setSelectedDoctorId(e.target.value)}
                           required
                         >
                           <option value="">-- Zgjedh një doktor --</option>
-                          {doctors.map((d) => (
+                          {Array.isArray(doctors) && doctors.map((d) => (
                             <option  key={d.doctorId} value={d.doctorId} >
                               
                               {d.firstName}
@@ -170,12 +151,12 @@
                       <div className="form-group">
                         <label>Date</label>
                     <input
-    type="date"
-    className="form-control"
-    value={appointmentDate}
-    onChange={(e) => setAppointmentDate(e.target.value)}
-    required
-  />
+                      type="date"
+                      className="form-control"
+                          value={appointmentDate} placeholder={appointmentDate}
+                          onChange={(e) => setAppointmentDate(e.target.value)}
+ 
+                        />
                       </div>
                     </div>
 
@@ -183,12 +164,12 @@
                       <div className="form-group">
                         <label>Time</label>
                       <input
-    type="time"
-    className="form-control"
-    value={appointmentTime}
-    onChange={(e) => setAppointmentTime(e.target.value)}
-    required
-  />
+                         type="time"
+                        className="form-control"
+                          value={appointmentTime} placeholder={appointmentTime}
+                          onChange={(e) => setAppointmentTime(e.target.value)}
+  
+                        />
 
                       </div>
                     </div>
@@ -208,4 +189,4 @@
     );
   }
 
-  export default AddAppointment;
+  export default EditAppointment;

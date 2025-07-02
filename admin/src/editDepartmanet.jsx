@@ -1,296 +1,116 @@
-
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "./header.jsx";
 import SideBar from "./sideBar.jsx";
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditDepartament() {
+  const { id } = useParams();
+  const [name, setName] = useState("");
+  const [active, setActive] = useState(true);
+  const navigate = useNavigate();
 
-    const empdata=[
-        {
-            id:1,
-            departamentName:"Dentists",
-            isActive:1
-        },
-        {
-            id:2,
-            departamentName:"Neurology",
-            isActive:0
-        },{
-            id:3,
-            departamentName:"Opthalmology",
-            isActive:1
-        }]
+  useEffect(() => {
+    axios.get(`http://localhost:5081/api/Departament/${id}`).then((res) => {
+      const data = res.data;
+    
+      setName(data.departamentName);
+      setActive(data.isActive);
+    });
+  }, [id]);
 
-        // useEffect(()=>{
-        //    setEditDepartament(empdata)
-        // },[])
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        
-    const [editID ,setEditId]= useState("")
-    const [editName ,setEditName]= useState("")
-    const [editActive ,setEditActive]= useState("Inactive")
+    const payload = {
+      departamentName: name,
+      isActive: active,
+    };
+
+    try {
+      await axios.put(`http://localhost:5081/api/Departament/${id}`, payload);
+      navigate("/department");
+    } catch (err) {
+      console.error("Error updating department", err);
+    }
+  };
 
 
-    return(
+  return (
     <>
       <SideBar />
       <Header />
-     <div class="page-wrapper">
-            <div class="content">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Department</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <form>
-							<div class="form-group">
-								<label>Department Name</label>
-								<input class="form-control" type="text" value={editName}
-                                onChange={(e)=>setName(e.target.value)}
-                                />
-							</div>
-                            
-                            <div class="form-group">
-                                <label class="display-block">Department Status</label>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="status" id="product_active"
-                                      onChange={(e)=>setEditName(e)}value={editActive}
-                                    />
-									<label class="form-check-label" for="product_active">
-									Active
-									</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="status" id="product_inactive"
-                                    onChange={(e)=>setEditName(e)}value={editActive} 
-                                    />
-									<label class="form-check-label" for="product_inactive">
-									Inactive
-									</label>
-								</div>
-                            </div>
-                            <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Create Department</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+      <div className="page-wrapper">
+        <div className="content">
+          <div className="row">
+            <div className="col-lg-8 offset-lg-2">
+              <h4 className="page-title">Add Department</h4>
             </div>
-			<div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="chat.html">See all messages</a>
-                    </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-8 offset-lg-2">
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label>Department Name</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={name || ""}
+                    placeholder={name}
+    
+                    
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
+
+                <div className="form-group">
+                  <label className="display-block">Department Status</label>
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="status"
+                      id="product_active"
+                      onChange={(e) => setActive(true)}
+                      checked={active === true}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="product_active"
+                    >
+                      Active
+                    </label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="status"
+                      id="product_inactive"
+                      onChange={() => setActive(false)}
+                      checked={active === false}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="product_inactive"
+                    >
+                      Inactive
+                    </label>
+                  </div>
+                </div>
+                <div className="m-t-20 text-center">
+                  <button className="btn btn-primary submit-btn">
+                    Create Department
+                  </button>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
-         <div class="sidebar-overlay" data-reff=""></div>
+      </div>
+      <div className="sidebar-overlay" data-reff=""></div>
     </>
-)    
+  );
 }
-export default EditDepartament
+export default EditDepartament;
