@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppliactionDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 // Konfiguro CORS
 builder.Services.AddCors(options =>
 {
@@ -37,28 +36,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
- builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args,
-    ContentRootPath = Directory.GetCurrentDirectory()
-});
-
-try
-{
-    builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"[WARNING] Failed to load appsettings.json: {ex.Message}");
-}
-
- app = builder.Build();
-
-// Shembull: shfaq connection string për debug
-Console.WriteLine("Conn: " + builder.Configuration.GetConnectionString("DefaultConnection"));
-
-app.Run();
 
 // Aktivizo Static Files për folderin "Images"
 app.UseStaticFiles(); // për wwwroot nëse përdoret
