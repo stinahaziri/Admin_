@@ -44,6 +44,12 @@ export default function App() {
         <Route path="/add-departament" element={<AddDepartament />} />
         <Route path="/edit-departament/:id" element={<EditDepartament />} />
       </Routes>
+      {/* ECREATE TABLE Ligjeruesi (
+LecturerID INT PRIMARY KEY IDENTITY(1,1), LecturerName NVARCHAR(100), Department NVARCHAR (100), Email NVARCHAR(100)
+);
+ECREATE TABLE Ligjerata (
+LectureID INT PRIMARY KEY IDENTITY(1,1), LectureName NVARCHAR (100),
+LecturerID INT FOREIGN KEY REFERENCES Ligjeruesi(LecturerID) */}
     </BrowserRouter>
   );
 }
